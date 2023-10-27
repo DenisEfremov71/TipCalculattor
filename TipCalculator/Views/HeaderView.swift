@@ -33,6 +33,7 @@ class HeaderView: UIView {
         ])
         stackView.axis = .vertical
         stackView.alignment = .leading
+        stackView.distribution = .fillProportionally
         stackView.spacing = -4
         return stackView
     }()
@@ -51,6 +52,7 @@ class HeaderView: UIView {
         stackView.snp.makeConstraints { make in
             make.edges.equalToSuperview()
         }
+
         topSpacerView.snp.makeConstraints { make in
             make.height.equalTo(bottomSpacerView)
         }
