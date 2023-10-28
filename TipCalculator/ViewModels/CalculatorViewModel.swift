@@ -20,12 +20,16 @@ class CalculatorViewModel {
         let updateViewPublisher: AnyPublisher<Result, Never>
     }
 
+    private var cancellables = Set<AnyCancellable>()
+
     func transform(input: Input) -> Output {
+        
         let result = Result(
             amountPerPerson: 500,
             totalBill: 100,
             totalTip: 50
         )
+
         return Output(updateViewPublisher: Just(result).eraseToAnyPublisher())
     }
 
