@@ -24,8 +24,8 @@ class CalculatorViewModel {
 
     func transform(input: Input) -> Output {
 
-        input.tipPublisher.sink { tip in
-            print("The tip: \(tip)")
+        input.splitPublisher.sink { split in
+            print("The split: \(split)")
         }.store(in: &cancellables)
 
         let result = Result(
