@@ -14,10 +14,14 @@ class CalculatorViewModel {
         let billPublisher: AnyPublisher<Double, Never>
         let tipPublisher: AnyPublisher<Tip, Never>
         let splitPublisher: AnyPublisher<Int, Never>
+        let viewTapPublisher: AnyPublisher<Void, Never>
+        let logoViewTapPublisher: AnyPublisher<Void, Never>
     }
 
     struct Output {
         let updateViewPublisher: AnyPublisher<Result, Never>
+        let dismissKeyboardPublisher: AnyPublisher<Void, Never>
+        let resetCalculatorPublisher: AnyPublisher<Void, Never>
     }
 
     private var cancellables = Set<AnyCancellable>()
@@ -38,7 +42,15 @@ class CalculatorViewModel {
             )
             return Just(result)
         }.eraseToAnyPublisher()
-        return Output(updateViewPublisher: updateViewPublisher)
+        
+        let dismissKeyboardPublisher = input.viewTapPublisher
+        let resetCalculatorPublisher = input.logoViewTapPublisher
+
+        return Output(
+            updateViewPublisher: updateViewPublisher,
+            dismissKeyboardPublisher: dismissKeyboardPublisher,
+            resetCalculatorPublisher: resetCalculatorPublisher
+        )
     }
 
     private func getTipAmount(bill: Double, tip: Tip) -> Double {

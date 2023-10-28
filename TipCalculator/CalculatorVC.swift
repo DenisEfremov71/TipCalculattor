@@ -44,7 +44,7 @@ class CalculatorVC: UIViewController {
     }()
 
     private lazy var logoViewTapPublisher: AnyPublisher<Void, Never> = {
-        let tapGesture = UITapGestureRecognizer(target: logoView, action: nil)
+        let tapGesture = UITapGestureRecognizer(target: self, action: nil)
         tapGesture.numberOfTapsRequired = 2
         view.addGestureRecognizer(tapGesture)
         return tapGesture.tapPublisher.flatMap { _ in
@@ -56,7 +56,6 @@ class CalculatorVC: UIViewController {
         super.viewDidLoad()
         layout()
         bind()
-        observe()
     }
 
     private func bind() {
@@ -64,7 +63,9 @@ class CalculatorVC: UIViewController {
         let input = CalculatorViewModel.Input(
             billPublisher: billInputView.valuePublisher,
             tipPublisher: tipInputView.valuePublisher,
-            splitPublisher: splitInputView.valuePublisher
+            splitPublisher: splitInputView.valuePublisher,
+            viewTapPublisher: viewTapPublisher,
+            logoViewTapPublisher: logoViewTapPublisher
         )
 
         let output = vm.transform(input: input)
@@ -72,15 +73,13 @@ class CalculatorVC: UIViewController {
         output.updateViewPublisher.sink { [unowned self] result in
             resultView.configure(result: result)
         }.store(in: &cancellables)
-    }
 
-    private func observe() {
-        viewTapPublisher.sink { [unowned self] _ in
+        output.dismissKeyboardPublisher.sink { [unowned self] in
             view.endEditing(true)
         }.store(in: &cancellables)
 
-        logoViewTapPublisher.sink { _ in
-            print("logo view is tapped")
+        output.resetCalculatorPublisher.sink { _ in
+            print("Resetting the calculator...")
         }.store(in: &cancellables)
     }
 
