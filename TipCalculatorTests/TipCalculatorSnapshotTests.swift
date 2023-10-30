@@ -37,7 +37,7 @@ final class TipCalculatorSnapshotTests: XCTestCase {
         assertSnapshot(matching: view, as: .image(size: size), record: false)
     }
 
-    func testBillInputView() {
+    func testInitialBillInputView() {
         // given
         let size = CGSize(width: screenWidth, height: 56)
 
@@ -48,7 +48,7 @@ final class TipCalculatorSnapshotTests: XCTestCase {
         assertSnapshot(matching: view, as: .image(size: size), record: false)
     }
 
-    func testTipInputView() {
+    func testInitialTipInputView() {
         // given
         let size = CGSize(width: screenWidth, height: 56+56+16)
 
@@ -59,7 +59,7 @@ final class TipCalculatorSnapshotTests: XCTestCase {
         assertSnapshot(matching: view, as: .image(size: size), record: false)
     }
 
-    func testSplitInputView() {
+    func testInitialSplitInputView() {
         // given
         let size = CGSize(width: screenWidth, height: 56)
 
