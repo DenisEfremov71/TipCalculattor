@@ -18,7 +18,11 @@ class SplitInputView: UIView {
     }()
 
     private lazy var decrementButton: UIButton = {
-        let button = buildButton(text: "-", corners: [.layerMinXMinYCorner, .layerMinXMaxYCorner])
+        let button = buildButton(
+            text: "-",
+            corners: [.layerMinXMinYCorner, .layerMinXMaxYCorner]
+        )
+        button.accessibilityIdentifier = ScreenIdentifier.SplitInputView.decrementButton.rawValue
         button.tapPublisher.flatMap { [unowned self] _ in
             Just(splitSubject.value == 1 ? 1 : splitSubject.value - 1)
         }.assign(to: \.value, on: splitSubject)
@@ -31,6 +35,7 @@ class SplitInputView: UIView {
             text: "+",
             corners: [.layerMaxXMinYCorner, .layerMaxXMaxYCorner]
         )
+        button.accessibilityIdentifier = ScreenIdentifier.SplitInputView.incrementButton.rawValue
         button.tapPublisher.flatMap { [unowned self] _ in
             Just(splitSubject.value + 1)
         }.assign(to: \.value, on: splitSubject)
@@ -39,11 +44,13 @@ class SplitInputView: UIView {
     }()
 
     private lazy var quantityLabel: UILabel = {
-        LabelFactory.build(
+        let label = LabelFactory.build(
             text: "1",
             font: ThemeFont.bold(ofSize: 20),
             backgroundColor: .white
         )
+        label.accessibilityIdentifier = ScreenIdentifier.SplitInputView.quantityValueLabel.rawValue
+        return label
     }()
 
     private lazy var stackView: UIStackView = {
